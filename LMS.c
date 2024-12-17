@@ -95,7 +95,7 @@ void menu() {
                 addBook();
                 break;
             case 2:
-//                viewBooks();
+                viewBooks();
                 break;
             case 3:
 //                updateBook();
@@ -118,7 +118,7 @@ void menu() {
     } while (choice != 7);
 }
 
-// <------------------------------ addBook FUNCTION ---------------------------------->
+// <------------------------------ ADD BOOK FUNCTION ---------------------------------->
 
 void addBook() {
     if (bookCount >= 100) {
@@ -126,17 +126,118 @@ void addBook() {
         return;
     }
 
-    printf("\n\t\t--- Add Book ---\n");
-    printf("\t\tEnter book ID: ");
-    scanf("%d", &books[bookCount].bookID);
+    printf("\n\t\t-------- Add Book --------\n");
+
+    // Ye Duplicate Book ID check karay ga 
+    int bookID;
+    int duplicate = 0;
+    do {
+        printf("\t\tEnter book ID: ");
+        scanf("%d", &bookID);
+
+        duplicate = 0;
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].bookID == bookID) {
+                printf("\t\tBook ID already exists! Try again with a unique book ID.\n\n");
+                duplicate = 1;
+                break;
+            }
+        }
+    } while (duplicate);
+
+    books[bookCount].bookID = bookID;
 
     printf("\t\tEnter title: ");
-    scanf(" %[^\n]", books[bookCount].title);
+    scanf(" %[^\n]", books[bookCount].title); 
 
     printf("\t\tEnter author: ");
-    scanf(" %[^\n]", books[bookCount].author);
+    scanf(" %[^\n]", books[bookCount].author); 
 
     books[bookCount].isBorrowed = 0; 
     bookCount++;
     printf("\t\tBook added successfully!\n");
 }
+
+
+
+
+// <------------------------------ VIEW BOOKS FUNCTION ---------------------------------->
+
+void viewBooks() {
+    int choice, bookID, found = 0;
+
+    if (bookCount == 0) {
+        printf("\n\t\tNo books in the library.\n");
+        return;
+    }
+
+    printf("\n\t\tDo you want to:\n");
+    printf("\t\t1. View all books\n");
+    printf("\t\t2. View a specific book by ID\n");
+    printf("\t\tEnter your choice (1 or 2): ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+         printf("\n\t\t---------------------------------- LIBRARY BOOKS ----------------------------------\n\n");
+        printf("\t\t%-10s%-30s%-30s%-15s\n", "Book ID", "Title", "Author", "Status");
+        printf("\t\t-----------------------------------------------------------------------------------\n");
+        
+
+        for (int i = 0; i < bookCount; i++) {
+            char status[15]; 
+            if (books[i].isBorrowed) {
+                strcpy(status, "Borrowed");
+            } else {
+                strcpy(status, "Available");
+            }
+
+            printf("\t\t%-10d%-30s%-30s%-15s\n", 
+                   books[i].bookID, 
+                   books[i].title, 
+                   books[i].author, 
+                   status);
+
+            if (i != bookCount - 1) {
+                printf("\n");
+            }
+        }
+        printf("\t\t-----------------------------------------------------------------------------------\n");
+    } 
+    else if (choice == 2) {
+        printf("\n\t\tEnter the book ID: ");
+        scanf("%d", &bookID);
+
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].bookID == bookID) {
+                char status[15]; 
+                if (books[i].isBorrowed) {
+                    strcpy(status, "Borrowed");
+                } else {
+                    strcpy(status, "Available");
+                }
+
+                printf("\n\t\tBook Details:\n");
+                printf("\t\t%-10s%-30s%-30s%-15s\n", "Book ID", "Title", "Author", "Status");
+                printf("\t\t-----------------------------------------------------------------------------------\n");
+                printf("\t\t%-10d%-30s%-30s%-15s\n", 
+                       books[i].bookID, 
+                       books[i].title, 
+                       books[i].author, 
+                       status);
+                printf("\t\t-----------------------------------------------------------------------------------\n");
+
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found) {
+            printf("\n\t\tNo book found with ID %d.\n", bookID);
+        }
+    } 
+    else {
+        printf("\n\t\tInvalid choice! Please enter 1 or 2.\n");
+    }
+}
+
+
