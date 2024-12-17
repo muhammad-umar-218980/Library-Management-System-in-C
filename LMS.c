@@ -79,7 +79,6 @@ void displayMenu() {
     printf("\t\t6. Borrow/Return Book\n");
     printf("\t\t7. Exit\n");
     printf("\t\tEnter your choice: ");
-    printf("\n\t\t--------------------------\n");
 }
 
 // <------------------------------ MENU FUNCTION ---------------------------------->
@@ -89,10 +88,11 @@ void menu() {
     do {
         displayMenu();
         scanf("%d", &choice);
+    	printf("\t\t--------------------------\n");
 
         switch (choice) {
             case 1:
-//                addBook();
+                addBook();
                 break;
             case 2:
 //                viewBooks();
@@ -118,3 +118,25 @@ void menu() {
     } while (choice != 7);
 }
 
+// <------------------------------ addBook FUNCTION ---------------------------------->
+
+void addBook() {
+    if (bookCount >= 100) {
+        printf("\t\tMaximum book limit reached. Cannot add more books.\n");
+        return;
+    }
+
+    printf("\n\t\t--- Add Book ---\n");
+    printf("\t\tEnter book ID: ");
+    scanf("%d", &books[bookCount].bookID);
+
+    printf("\t\tEnter title: ");
+    scanf(" %[^\n]", books[bookCount].title);
+
+    printf("\t\tEnter author: ");
+    scanf(" %[^\n]", books[bookCount].author);
+
+    books[bookCount].isBorrowed = 0; 
+    bookCount++;
+    printf("\t\tBook added successfully!\n");
+}
