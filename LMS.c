@@ -118,7 +118,7 @@ void menu() {
     } while (choice != 7);
 }
 
-// <------------------------------ ADD BOOK FUNCTION ---------------------------------->
+// <------------------------------ addBook FUNCTION ---------------------------------->
 
 void addBook() {
     if (bookCount >= 100) {
@@ -126,38 +126,42 @@ void addBook() {
         return;
     }
 
-    printf("\n\t\t-------- Add Book --------\n");
+    printf("\n\t\t--- Add Book ---\n");
 
-    // Ye Duplicate Book ID check karay ga 
     int bookID;
     int duplicate = 0;
     do {
         printf("\t\tEnter book ID: ");
-        scanf("%d", &bookID);
-
-        duplicate = 0;
-        for (int i = 0; i < bookCount; i++) {
-            if (books[i].bookID == bookID) {
-                printf("\t\tBook ID already exists! Try again with a unique book ID.\n\n");
-                duplicate = 1;
-                break;
+        if (scanf("%d", &bookID) != 1) {
+            printf("\t\tInvalid input! Please enter a valid integer book ID.\n\n");
+            while (getchar() != '\n');  
+            duplicate = 1;
+        } else {
+            duplicate = 0;
+            for (int i = 0; i < bookCount; i++) {
+                if (books[i].bookID == bookID) {
+                    printf("\t\tBook ID already exists! Try again with a unique book ID.\n\n");
+                    duplicate = 1;
+                    break;
+                }
             }
         }
     } while (duplicate);
 
     books[bookCount].bookID = bookID;
 
+
     printf("\t\tEnter title: ");
-    scanf(" %[^\n]", books[bookCount].title); 
+    scanf(" %[^\n]", books[bookCount].title);
 
     printf("\t\tEnter author: ");
-    scanf(" %[^\n]", books[bookCount].author); 
+    scanf(" %[^\n]", books[bookCount].author);
 
     books[bookCount].isBorrowed = 0; 
-    bookCount++;
-    printf("\t\tBook added successfully!\n");
-}
 
+    bookCount++;
+    printf("\n\t\tBook record added successfully!\n");
+}
 
 
 
@@ -178,7 +182,19 @@ void viewBooks() {
     scanf("%d", &choice);
 
     if (choice == 1) {
-         printf("\n\t\t---------------------------------- LIBRARY BOOKS ----------------------------------\n\n");
+    	
+    	char str[] = "LIBRARY BOOKS";
+    	int j = 0 ;
+        printf("\n\n\n\t\t------------------------------- ");
+
+		while(str[j] != '\0'){
+			printf("%c",str[j]);
+			Sleep(100);
+			j++;
+		}
+		
+		printf(" -------------------------------------\n");
+//         printf("\n\t\t---------------------------------- LIBRARY BOOKS ----------------------------------\n\n");
         printf("\t\t%-10s%-30s%-30s%-15s\n", "Book ID", "Title", "Author", "Status");
         printf("\t\t-----------------------------------------------------------------------------------\n");
         
