@@ -98,7 +98,7 @@ void menu() {
                 viewBooks();
                 break;
             case 3:
-//                updateBook();
+                updateBook();
                 break;
             case 4:
 //                deleteBook();
@@ -165,7 +165,7 @@ void addBook() {
 
 
 
-// <------------------------------ VIEW BOOKS FUNCTION ---------------------------------->
+// <------------------------------ viewBooks() FUNCTION ---------------------------------->
 
 void viewBooks() {
     int choice, bookID, found = 0;
@@ -256,4 +256,47 @@ void viewBooks() {
     }
 }
 
+
+
+
+// <------------------------------------ updateBook() FUNCTION ------------------------------------------>
+
+void updateBook() {
+    if (bookCount == 0) {
+        printf("\n\t\tNo books available in the library.\n");
+        return;
+    }
+
+    int bookID;
+
+    printf("\n\t\tEnter the book ID of the book to update: ");
+    while (scanf("%d", &bookID) != 1) {
+        printf("\t\tInvalid input! Please enter a valid integer book ID.\n");
+        while (getchar() != '\n');
+        printf("\n\t\tEnter the book ID of the book to update: ");
+    }
+
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].bookID == bookID) {
+            printf("\n\t\t------------------------ CURRENT RECORD OF BOOK ----------------------\n");
+            printf("\t\t%-10s%-30s%-30s\n", "Book ID", "Title", "Author");
+            printf("\t\t--------------------------------------------------------------------------\n");
+            printf("\t\t%-10d%-30s%-30s\n", books[i].bookID, books[i].title, books[i].author);
+            printf("\t\t--------------------------------------------------------------------------\n");
+
+            printf("\n\t\t--- Update Record ---\n");
+
+            printf("\t\tEnter new title: ");
+            scanf(" %[^\n]", books[i].title);
+
+            printf("\t\tEnter new author: ");
+            scanf(" %[^\n]", books[i].author);
+
+            printf("\n\t\tBook record updated successfully!\n");
+            return;
+        }
+    }
+
+    printf("\n\t\tNo book found with ID %d.\n", bookID);
+}
 
