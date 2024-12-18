@@ -101,7 +101,7 @@ void menu() {
                 updateBook();
                 break;
             case 4:
-//                deleteBook();
+                deleteBook();
                 break;
             case 5:
 //                searchBook();
@@ -299,4 +299,37 @@ void updateBook() {
 
     printf("\n\t\tNo book found with ID %d.\n", bookID);
 }
+
+
+// <------------------------------------ deleteBook() FUNCTION ------------------------------------------>
+void deleteBook() {
+    if (bookCount == 0) {
+        printf("\n\t\tNo books in the library.\n");
+        return;
+    }
+
+    int bookID, found = 0;
+
+    printf("\n\t\tEnter the book ID to delete: ");
+    scanf("%d", &bookID);
+
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].bookID == bookID) {
+            found = 1;
+
+            for (int j = i; j < bookCount - 1; j++) {
+                books[j] = books[j + 1];
+            }
+
+            bookCount--; 
+            printf("\n\t\tBook with ID %d deleted successfully.\n", bookID);
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("\n\t\tNo book found with ID %d.\n", bookID);
+    }
+}
+
 
