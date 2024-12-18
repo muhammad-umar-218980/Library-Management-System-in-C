@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 // <------------------------------ STRUCTURE FOR BOOKS ---------------------------------->
 
@@ -104,7 +105,7 @@ void menu() {
                 deleteBook();
                 break;
             case 5:
-//                searchBook();
+                searchBook();
                 break;
             case 6:
 //                borrowOrReturnBook();
@@ -331,5 +332,74 @@ void deleteBook() {
         printf("\n\t\tNo book found with ID %d.\n", bookID);
     }
 }
+
+
+
+// <------------------------------ searchBook FUNCTION ---------------------------------->
+
+void searchBook() {
+    if (bookCount == 0) {
+        printf("\n\t\tNo books in the library.\n");
+        return;
+    }
+
+    int choice, bookID, found = 0;
+    char title[50];
+
+    printf("\n\t\t--- Search Book ---\n");
+    printf("\t\t1. Search by ID\n");
+    printf("\t\t2. Search by Title\n");
+    printf("\t\tEnter your choice: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        printf("\t\tEnter book ID: ");
+        scanf("%d", &bookID);
+
+        printf("\n\t\t------------------------------ CURRENT RECORD OF BOOK -----------------------------\n");
+        printf("\t\t%-10s%-30s%-30s%-15s\n", "Book ID", "Title", "Author", "Status");
+        printf("\t\t-----------------------------------------------------------------------------------\n");
+
+        for (int i = 0; i < bookCount; i++) {
+            if (books[i].bookID == bookID) {
+                printf("\t\t%-10d%-30s%-30s%-15s\n", 
+                       books[i].bookID, 
+                       books[i].title, 
+                       books[i].author, 
+                       books[i].isBorrowed ? "Borrowed" : "Available");
+                found = 1;
+                break;
+            }
+        }
+    } else if (choice == 2) {
+        printf("\t\tEnter book title: ");
+        scanf(" %[^\n]", title);
+
+        printf("\n\t\t------------------------------ CURRENT RECORD OF BOOK -----------------------------\n");
+        printf("\t\t%-10s%-30s%-30s%-15s\n", "Book ID", "Title", "Author", "Status");
+        printf("\t\t-----------------------------------------------------------------------------------\n");
+
+        for (int i = 0; i < bookCount; i++) {
+            if (strcasecmp(books[i].title, title) == 0) {
+                printf("\t\t%-10d%-30s%-30s%-15s\n", 
+                       books[i].bookID, 
+                       books[i].title, 
+                       books[i].author, 
+                       books[i].isBorrowed ? "Borrowed" : "Available");
+                found = 1;
+            }
+        }
+    } else {
+        printf("\t\tInvalid choice! Please enter 1 or 2.\n");
+        return;
+    }
+
+    if (!found) {
+        printf("\t\tNo matching book found.\n");
+    } else {
+        printf("\t\t-----------------------------------------------------------------------------------\n");
+    }
+}
+
 
 
