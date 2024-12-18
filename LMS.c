@@ -108,7 +108,7 @@ void menu() {
                 searchBook();
                 break;
             case 6:
-//                borrowOrReturnBook();
+                borrowOrReturnBook();
                 break;
             case 7:
                 printf("\t\tExiting...\n");
@@ -402,4 +402,58 @@ void searchBook() {
 }
 
 
+// <------------------------------ BorrowOrReturnBook FUNCTION ---------------------------------->
+
+void borrowOrReturnBook() {
+    if (bookCount == 0) {
+        printf("\n\t\tNo books in the library.\n");
+        return;
+    }
+
+    int bookID, found = 0, choice;
+
+    printf("\n\t\t--- Borrow or Return Book ---\n");
+    printf("\t\t1. Borrow a Book\n");
+    printf("\t\t2. Return a Book\n");
+    printf("\t\tEnter your choice: ");
+    scanf("%d", &choice);
+
+    if (choice != 1 && choice != 2) {
+        printf("\t\tInvalid choice! Please select 1 or 2.\n");
+        return;
+    }
+
+    printf("\t\tEnter book ID: ");
+    scanf("%d", &bookID);
+
+    for (int i = 0; i < bookCount; i++) {
+        if (books[i].bookID == bookID) {
+            found = 1;
+
+            if (choice == 1) { // Book Borrow Karnay k lie 
+                if (books[i].isBorrowed) {
+                    printf("\n\t\tThe book is already borrowed.\n");
+                } else {
+                    books[i].isBorrowed = 1;
+                    printf("\n\t\tYou have successfully borrowed the book \"%s\" by %s.\n", 
+                           books[i].title, books[i].author);
+                }
+            } else if (choice == 2) { // Book return karnay k lie 
+                if (!books[i].isBorrowed) {
+                    printf("\n\t\tThe book is already available.\n");
+                } else {
+                    books[i].isBorrowed = 0;
+                    printf("\n\t\tYou have successfully returned the book \"%s\" by %s.\n", 
+                           books[i].title, books[i].author);
+                }
+            }
+
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("\n\t\tNo book found with ID %d.\n", bookID);
+    }
+}
 
