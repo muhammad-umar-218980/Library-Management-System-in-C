@@ -22,7 +22,6 @@ void searchBook();
 void borrowOrReturnBook();
 void menu();
 void displayMenu();
-void printBook(Book* book);
 void animation();
 
 // <------------------------------ GLOBAL VARIABLES ---------------------------------->
